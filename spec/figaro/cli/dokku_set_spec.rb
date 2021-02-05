@@ -1,12 +1,12 @@
 describe "figaro dokku:set" do
   before do
-    create_dir("example")
+    create_directory("example")
     cd("example")
     write_file("config/application.yml", "foo: bar")
   end
 
   it "sends Figaro configuration to dokku" do
-    run_simple("figaro dokku:set")
+    run_command_and_stop("figaro dokku:set")
 
     command = commands.last
     expect(command.name).to eq("dokku")
@@ -16,7 +16,7 @@ describe "figaro dokku:set" do
   it "respects path" do
     write_file("env.yml", "foo: bar")
 
-    run_simple("figaro dokku:set -p env.yml")
+    run_command_and_stop("figaro dokku:set -p env.yml")
 
     command = commands.last
     expect(command.name).to eq("dokku")
@@ -30,7 +30,7 @@ test:
   foo: baz
     EOF
 
-    run_simple("figaro dokku:set -e test")
+    run_command_and_stop("figaro dokku:set -e test")
 
     command = commands.last
     expect(command.name).to eq("dokku")
@@ -40,7 +40,7 @@ test:
   it "handles values with special characters" do
     overwrite_file("config/application.yml", "foo: bar baz")
 
-    run_simple("figaro dokku:set")
+    run_command_and_stop("figaro dokku:set")
 
     command = commands.last
     expect(command.name).to eq("dokku")
