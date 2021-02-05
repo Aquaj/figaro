@@ -4,7 +4,7 @@ module Figaro
   class CLI < Thor
     class DokkuSet < Task
       def run
-        system(configuration, command)
+        system(env, command)
       end
 
       private
